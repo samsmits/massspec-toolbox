@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <bioml label="x! taxon-to-file matching list">
-	<taxon label="ECOLI_MG1655_BKRB2">
-		<file format="peptide" URL="/home/taejoon/MS.project/DB/ECOLI_MG1655.BKRB2.aa.pro" />
+	<taxon label="ECOLI_BKRB2">
+		<file format="peptide" URL="/work2/MassSpec/DB/ECOLI_MG1655.BKRB2.aa.pro" />
 	</taxon>
 	<taxon label="YEAST_ensembl50">
-		<file format="peptide" URL="/home/taejoon/MS.project/DB/YEAST.ensembl50.aa.pro" />
+		<file format="peptide" URL="/work2/MassSpec/DB/YEAST.ensembl50.aa.pro" />
 	</taxon>
 </bioml>
