@@ -1,20 +1,31 @@
 #!/usr/bin/perl -w
 use File::Spec;
-
 use strict;
 use warnings;
 
-my $path_tandem = '/usr/local/src/tandem-linux-08-02-01-3/bin/tandem.exe';
-my $parent_dir = File::Spec->rel2abs('..');
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+
+my $path_conf = &get_path();
+if( not exists $path_conf->{'tandem'} ) {
+  print STDERR "tandem is not available in path.conf\n";
+  exit;
+}
+if( not exists $path_conf->{'tandem-taxonomy'} ) {
+  print STDERR "tandem-taxonomy is not available in path.conf\n";
+  exit;
+}
+if( not exists $path_conf->{'tandem-input'} ) {
+  print STDERR "tandem-input is not available in path.conf\n";
+  exit;
+}
+my $path_tandem = $path_conf->{'tandem'};
+my $file_taxonomy = $path_conf->{'tandem-taxonomy'};
+my $file_input = $path_conf->{'tandem-input'};
+my $db_name = $path_conf->{'taxonomy'};
+
 my $current_dir = File::Spec->rel2abs('.');
-my $file_taxonomy = File::Spec->catfile($parent_dir,'tandem-taxonomy.xml');
-my $file_input = File::Spec->catfile($parent_dir,'tandem-isb_input_native.xml');
-
-#my $db_name = 'ECOLI_MG1655_BKRB2';
-my $db_name = 'YEAST_ensembl50';
-
-my $file_shell = 'run-tandem.sh';
 my $tandem_dir = 'tandem';
+my $file_shell = 'run-tandem.sh';
 
 unless( -d $tandem_dir ) {
   print STDERR "Make $tandem_dir\n";
@@ -25,6 +36,7 @@ open(SHELL, ">$file_shell");
 print SHELL "#!/bin/bash\n";
 foreach my $file_mzxml (`ls mzXML/*mzXML`) {
   chomp($file_mzxml);
+  $file_mzxml = File::Spec->rel2abs($file_mzxml);
   my $file_base = 'unknown';
   if( $file_mzxml =~ /mzXML\/([A-z0-9_\-\.]+)\.mzXML/ ) {
     $file_base = $1;
@@ -51,14 +63,11 @@ foreach my $file_mzxml (`ls mzXML/*mzXML`) {
                         -input_xml => $file_input,
                         -mzXML => $file_mzxml, -output => $file_output,
                         -seq => $file_seq, -log => $file_log,
-                        -taxonomy => $file_taxonomy, -db_name => $db_name),"\n";
+                        -taxonomy => $file_taxonomy, 
+                        -db_name => $db_name),"\n";
   close(CONF);
   print STDERR "Done\n";
   print SHELL $path_tandem,' ',$file_config,"\n";
-  #print SHELL join(' ',$path_tandem2xml,$file_output,$file_pepxml),"\n";
-  $file_output =~ s/out/\*out/g;
-  print SHELL "gzip $file_output\n";
-  print SHELL "gzip $file_pepxml\n";
 }
 close(SHELL);
 `chmod 744 $file_shell`;

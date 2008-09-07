@@ -2,8 +2,10 @@
 use strict;
 use warnings;
 
-#my $file_db = "/work2/MassSpec/DB/ECOLI_MG1655.BKRB2.aa";
-my $file_db = "/work2/MassSpec/DB/YEAST.ensembl50.aa";
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+
+my $path_conf = &get_path();
+my $file_db = $path_conf->{'DB'};
 
 foreach my $file_pepxml (`ls *.pepxml`) {
   chomp($file_pepxml);
@@ -19,11 +21,10 @@ foreach my $file_pepxml (`ls *.pepxml`) {
       print NEW '<parameter name="list path, sequence source #1" value="',
               $file_db,'"/>',"\n";
     } else {
-    #s/\/YEAST.ensembl50.fasta//g;
       print NEW $_;
     }
   }
   close(NEW);
   close(BAK);
-  #`rm $file_pepxml_bak`;
+  `rm $file_pepxml_bak`;
 }
