@@ -10,7 +10,7 @@ unless(-d 'tandem.xinteract') {
   print STDERR "Check xinteract directory ... Done\n";
 }
   
-unless(-d 'tandem') {
+unless(-d 'tandem/') {
   die "TANDEM files are not prepared properly. Check tandem/\n";
 }
 
@@ -30,3 +30,4 @@ foreach my $file_pepxml (`ls tandem/*.pepxml`) {
               $file_xinteract_prot,' ',$file_xinteract_summary," 0.05\n";
 }
 close(SCRIPT);
+`chmod 744 $file_script`;

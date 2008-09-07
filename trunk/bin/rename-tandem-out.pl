@@ -1,6 +1,14 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+
+my $path_conf = &get_path();
+if( not exists $path_conf->{'tandem2xml'} ) {
+  print STDERR "tandem2xml is not available in path.conf\n";
+  exit;
+}
+my $path_tandem2xml = $path_conf->{'tandem2xml'};
 
 foreach my $file_old (`ls tandem/*.out`) {
   chomp($file_old );
@@ -14,5 +22,5 @@ foreach my $file_old (`ls tandem/*.out`) {
   }
   my $file_pepxml = $file_new;
   $file_pepxml =~ s/out$/pepxml/;
-  `/usr/local/tpp/bin/Tandem2XML $file_new > $file_pepxml`;
+  `$path_tandem2xml $file_new > $file_pepxml`;
 }
