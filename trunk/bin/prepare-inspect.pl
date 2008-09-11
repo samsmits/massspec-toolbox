@@ -4,9 +4,11 @@ use File::Spec;
 use strict;
 use warnings;
 
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+my $path_conf = &get_path();
+
 my $dir_current = File::Spec->rel2abs('.');
-#my $db_name = 'ECOLI_MG1655.BKRB2.trie';
-my $db_name = 'YEAST.ensembl50.trie';
+my $db_name = $path_conf->{'DB'};
 
 my $file_script = "run-inspect.sh";
 my $file_Pvalue_script = "run-inspect-PValue.sh";
@@ -33,7 +35,8 @@ foreach my $file_mzxml (`ls ./mzXML/*.mzXML`) {
   print INSPECT "DB,$db_name\n";
   print INSPECT "mod,57,C,fix\n";
   close(INSPECT);
-  print SCRIPT "/usr/local/inspect/inspect -r /usr/local/inspect -i $file_inspect_in -o $file_inspect_out\n";
+  print SCRIPT $path_conf->{'inspect'},' -r ',$path_conf->{'inspect_home'},
+                " -i $file_inspect_in -o $file_inspect_out\n";
 }
 close(SCRIPT);
 

@@ -63,14 +63,15 @@ foreach my $file_inspect (`ls inspect.PValue/*.out`) {
 
 open(OUTPUT,">$file_output");
 print STDERR "Write $file_output ... \n";
+print OUTPUT join("\t",'Sample','Scan/Charge','Peptide','P-value'),"\n";
 foreach my $sample (sort keys %spectra) {
   foreach my $scan (sort keys %{$spectra{$sample}}) {
     foreach my $peptide (sort keys %{$spectra{$sample}->{$scan}}) {
       print OUTPUT join("\t",$sample,$scan,$peptide,
                 $spectra{$sample}->{$scan}->{$peptide}),"\n";
-      if( $spectra{$sample}->{$scan}->{$peptide} <= 0.05 ) {
-        print join("\t",$sample,$scan,$peptide),"\n";
-      }
+      #if( $spectra{$sample}->{$scan}->{$peptide} <= 0.05 ) {
+      #  print join("\t",$sample,$scan,$peptide),"\n";
+      #}
     }
   }
 }

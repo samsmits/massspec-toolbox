@@ -5,13 +5,13 @@ use File::Spec;
 use strict;
 use warnings;
 
-my $path_omssacl = '/work/linusben/src/omssa-2.1.1.linux/omssacl';
-my $path_mods_xml = '/work2/MassSpec/omssa-mods.xml';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
 
-my $path_tandem2xml = '/usr/local/tpp/bin/Tandem2XML';
-my $file_taxonomy = '/work2/MassSpec/taxonomy.xml';
-#my $path_db = '/work2/MassSpec/DB/ECOLI_MG1655.BKRB2.aa';
-my $path_db = '/work2/MassSpec/DB/YEAST.ensembl50.aa';
+my $path_conf = &get_path();
+my $path_omssacl = $path_conf->{'omssacl'};
+my $path_mods_xml = $path_conf->{'omssa-mods'};
+
+my $path_db = $path_conf->{'DB'};
 
 my $file_shell = 'run-omssa.sh';
 my $current_dir = cwd();
@@ -68,4 +68,4 @@ foreach my $file_mgf (`ls mgf/*mgf`) {
   #print STDERR "Done\n";
 }
 close(SHELL);
-
+`chmod 744 $file_shell`;

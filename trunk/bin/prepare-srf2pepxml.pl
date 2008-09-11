@@ -3,7 +3,11 @@ use Cwd 'abs_path';
 use strict;
 use warnings;
 
-my $file_db = abs_path('../DB/YEAST.ensembl50.aa');
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+
+my $path_conf = &get_path();
+
+my $file_db = $path_conf->{'DB'};
 my $file_script = "run-srf2pepxml.sh";
 my $dir_output = "sequest.pepxml";
 
