@@ -1,7 +1,6 @@
 #!/bin/bash
-
-MS_DIRS=('RAW' 'mzXML' 'SRF' 'sequest.pepxml' 'sequest.xinteract' \
-          'inspect' 'inspect.PValue' 'mgf' 'omssa'
+MS_DIRS=('RAW' 'mzXML' 'SRF' 'ms1' 'ms2' 'sequest.pepxml' 'sequest.xinteract' 
+          'inspect' 'mgf' 'omssa' 'crux'
           'tandem' 'tandem.xinteract' 'tandem_k' 'tandem_k.xinteract')
 
 for((i=0; i<${#MS_DIRS[@]}; i++)); do

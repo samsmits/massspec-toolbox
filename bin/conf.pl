@@ -7,7 +7,7 @@ sub get_path {
     exit;
   }
   
-  if(not -f './DB' and not -f '../DB' ) {
+  if(not -f './DB/DBINFO' and not -f '../DB/DBINFO' ) {
     print STDERR "'DB' file is not available on parent directory.\n";
     print STDERR "Make 'DB' file containing full path of DB file.\n";
     exit;
@@ -24,8 +24,8 @@ sub get_path {
   }
   close(CONF);
 
-  if( -f '../DB' ) { open(DB,"../DB"); }
-  elsif( -f './DB' ) { open(DB,"./DB"); }
+  if( -f '../DB/DBINFO' ) { open(DB,"../DB/DBINFO"); }
+  elsif( -f './DB/DBINFO' ) { open(DB,"./DB/DBINFO"); }
 
   my $db_line = <DB>; chomp($db_line);
   ($rv{'taxonomy'}, $rv{'DB'}) = split(/\s+/,$db_line);

@@ -11,6 +11,7 @@ unless(-d 'tandem_k') {
 
 my $file_script = 'run-tandem_k.xinteract.sh';
 open(SCRIPT,">$file_script");
+print SCRIPT "#!/bin/bash\n";
 foreach my $file_pepxml (`ls tandem_k/*.pepxml`) {
   chomp($file_pepxml);
   my $file_xinteract = $file_pepxml;
