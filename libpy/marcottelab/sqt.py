@@ -1,3 +1,4 @@
+import marcottelab.Spectra2 as SP2
 
 def read_sqt(filename_sqt):
   f_sqt = open(filename_sqt,'r')
@@ -5,6 +6,11 @@ def read_sqt(filename_sqt):
   spectra_id = 1
   psm_id = 1
   header = dict()
+  spectra = []
+  hits = []
+  current_spectra = SP2.Spectra2()
+  current_match = PSM.PSM()
+
   for line in f_sqt:
     line = line.strip()
     if( line.startswith('H') ):
@@ -26,13 +32,19 @@ def read_sqt(filename_sqt):
       else:
         header[header_key] = header_value
 
-      print header_key,header[header_key]
-      #tmp_H[1] = tmp_H[1].replace(" ","_")
-      #print tmp_H[1],tmp_H[2]
     elif( line.startswith('S') ):
       tmp_S = line.split("\t")
+      current_spectra = SP2.Spectra2()
+      current_spectra.init( charge= ,precursor_mass=, start_scan, end_scan=)
+      
     elif( line.startswith('M') ):
       tmp_M = line.split("\t")
+      current_match = PSM.SearchHit()
+      current_match.init()
+
     elif( line.startswith('L') ):
       tmp_L = line.split("\t")
+      current_match.set_protein( tmp_L[1] )
+      current_spectra.append_match( current_match )
+
   f_sqt.close()

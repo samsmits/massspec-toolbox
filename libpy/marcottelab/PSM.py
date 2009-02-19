@@ -1,6 +1,6 @@
 import Spectra
 
-class PSM:
+class SearchHit:
   def __init__(self):
     self.spectra = Spectra()
     self.peptide = ''
