@@ -34,11 +34,11 @@ foreach my $sample (sort keys %files) {
   }
 
   my $file_xinteract = File::Spec->catfile('sequest.xinteract',
-                                    $sample.'.xinteract.xml');
+                                    $sample.'.sequest.xinteract.xml');
   my $file_xinteract_prot = File::Spec->catfile('sequest.xinteract',
-                                    $sample.'.xinteract.prot.xml');
+                                    $sample.'.sequest.xinteract.prot.xml');
   my $file_xinteract_summary = File::Spec->catfile('sequest.xinteract',
-                                    $sample.'.xinteract.summary');
+                                    $sample.'.sequest.xinteract.summary');
 
   print SCRIPT $path_conf->{'xinteract'},' -N',$file_xinteract
               ," -Op tmp/*.pepxml\n";
