@@ -21,7 +21,7 @@ open(SCRIPT,">$file_script");
 print SCRIPT "#!/bin/bash\n";
 open(PVALUE,">$file_Pvalue_script");
 print PVALUE "#!/bin/bash\n";
-print PVALUE "# Run this script from /usr/local/inspect/\n";
+print PVALUE "cd ",$path_conf->{'inspect_home'},"\n";
 foreach my $file_mzxml (`ls ./mzXML/*.mzXML`) {
   chomp($file_mzxml);
   my $file_inspect_in = $file_mzxml;
@@ -52,6 +52,7 @@ foreach my $file_mzxml (`ls ./mzXML/*.mzXML`) {
   print PVALUE "python PValue.py -r $file_inspect_out -w $file_inspect_Pvalue -S 0.5\n";
 }
 close(SCRIPT);
+print PVALUE "cd ",$current_dir."\n";
 close(PVALUE);
 
 `chmod 744 $file_script`;
