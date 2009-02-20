@@ -2,11 +2,7 @@
 use strict;
 use warnings;
 
-#my $sample = "MembraneFtsH";
-my $sample = "SolubleFtsH";
-my $file_protlst = "sequest.xinteract/$sample.xinteract.summary_0.05.protlst";
-my $file_list = $sample.'.abundant.txt';
-my $file_list_log = $sample.'.abundant.log';
+use File::Spec;
 
 my %files_protlst;
 foreach my $file_protlst (`ls sequest.xinteract/*protlst*`) {
@@ -22,7 +18,7 @@ foreach my $sample (sort keys %files_protlst) {
   my $file_log = File::Spec->catfile('APEX',$sample.'.sequest.xinteract.log');
   print STDERR "Write $file_list ... ";
 
-  if( $files_protlst =~ /gz$/ ) {
+  if( $file_protlst =~ /gz$/ ) {
     print STDERR "Uncompress $file_protlst...\n";
     `gunzip $file_protlst`;
     $file_protlst =~ s/\.gz$//;
