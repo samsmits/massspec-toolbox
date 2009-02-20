@@ -38,7 +38,7 @@ foreach my $sample (sort keys %files) {
   print SCRIPT $path_conf->{'crux'}
           ,' percolator --use-index T '
           ,'--sqt-output-file ',$file_percolator
-          ,' tmp/ ' ,$db_name,"\n";
+          ,' tmp ' ,$db_name,"\n";
   print SCRIPT "echo 'Clean-up $sample'\n";
   print SCRIPT "rm -f tmp/*\n";
 }
