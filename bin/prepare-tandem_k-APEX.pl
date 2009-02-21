@@ -16,8 +16,8 @@ foreach my $file_protlst (`ls tandem_k.xinteract/*protlst*`) {
 
 foreach my $sample (sort keys %files_protlst) {
   my $file_protlst = $files_protlst{$sample};
-  my $file_list = File::Spec->catfile('APEX',$sample.'.tandem_k.xinteract.list');
-  my $file_log = File::Spec->catfile('APEX',$sample.'.tandem_k.xinteract.log');
+  my $file_list = File::Spec->catfile('APEX.tandem_k',$sample.'.tandem_k.xinteract.list');
+  my $file_log = File::Spec->catfile('APEX.tandem_k',$sample.'.tandem_k.xinteract.log');
   print STDERR "Write $file_list ... ";
 
   if( $file_protlst =~ /gz$/ ) {

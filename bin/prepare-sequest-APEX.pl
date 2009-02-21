@@ -14,8 +14,8 @@ foreach my $file_protlst (`ls sequest.xinteract/*protlst*`) {
 
 foreach my $sample (sort keys %files_protlst) {
   my $file_protlst = $files_protlst{$sample};
-  my $file_list = File::Spec->catfile('APEX',$sample.'.sequest.xinteract.list');
-  my $file_log = File::Spec->catfile('APEX',$sample.'.sequest.xinteract.log');
+  my $file_list = File::Spec->catfile('APEX.sequest',$sample.'.sequest.xinteract.list');
+  my $file_log = File::Spec->catfile('APEX.sequest',$sample.'.sequest.xinteract.log');
   print STDERR "Write $file_list ... ";
 
   if( $file_protlst =~ /gz$/ ) {
