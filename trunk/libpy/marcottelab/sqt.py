@@ -1,7 +1,10 @@
+import gzip
 import marcottelab.Spectra2 as SP2
 
 def read_sqt(filename_sqt):
   f_sqt = open(filename_sqt,'r')
+  if( filename_sqt.endswith('gz') ):
+    f_sqt = gzip.open(filename_sqt,'r')
 
   spectra_id = 1
   psm_id = 1
@@ -34,17 +37,17 @@ def read_sqt(filename_sqt):
 
     elif( line.startswith('S') ):
       tmp_S = line.split("\t")
-      current_spectra = SP2.Spectra2()
-      current_spectra.init( charge= ,precursor_mass=, start_scan, end_scan=)
+      #current_spectra = SP2.Spectra2()
+      #current_spectra.init( charge= ,precursor_mass=, start_scan, end_scan=)
       
     elif( line.startswith('M') ):
       tmp_M = line.split("\t")
-      current_match = PSM.SearchHit()
-      current_match.init()
+      #current_match = PSM.SearchHit()
+      #current_match.init()
 
     elif( line.startswith('L') ):
       tmp_L = line.split("\t")
       current_match.set_protein( tmp_L[1] )
-      current_spectra.append_match( current_match )
+      #current_spectra.append_match( current_match )
 
   f_sqt.close()
