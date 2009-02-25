@@ -1,6 +1,9 @@
 #!/usr/bin/perl -w
-
-# C.Vogel, UT Austin, TX; April 2008
+## Copyright (C) 2008 Christine Vogel, University of Texas at Austin
+## Initial version : Apr. 2008
+## 
+## Modified by Taejoon Kwon
+## Modified date : Feb. 2009
 
 # input: 
 #	two .apex files (from different conditions) - format:
@@ -19,13 +22,62 @@
 
 # ======================================================================================
 use strict;
-$|=1;
+use warnings;
 
-die "\nnp_two_files_Zscore.pl <file1> <file2 [both in .apex format]> <out name>\n" unless ($#ARGV==2);
-my $file1 = $ARGV[0];
-my $file2 = $ARGV[1];
-my $out = $ARGV[2];
+my $usage = "APEX-Zscore.pl <file1.apex> <file2.apex> <output_filename>";
 
+if( $#ARGV != 2 ) {
+  print $usage,"\n";
+  exit(1);
+}
+
+my $apex1 = &read_apex($ARGV[0]);
+my $apex2 = &read_apex($ARGV[1]);
+my $filename_output = $ARGV[2].'.apexZ';
+
+sub read_apex {
+  my $filename_apex = shift;
+  my @rv;
+
+  unless( -e $filename_apex ) {
+    print STDERR $filename_apex," does not exist.\n";
+    exit;
+  }
+
+  my @headers = [];
+  open(APEX,$filename_apex);
+  while(<APEX>) {
+    next if(/^#/);
+    chomp;
+    
+    if(/^[0-9]+/) {
+      ## Record
+      my @tmp = split(/\t/);
+      my %tmp_hash;
+      for(my $i=0;$i<=$#tmp;$i++) {
+        $tmp_hash{ $headers[$i] } = $tmp[$i];
+      }
+      push(@rv, \%tmp_hash);
+    } else {
+      ## Header
+      @headers = split(/\t/);
+    }
+  }
+  close(APEX);
+
+  return @rv;
+}
+
+
+
+
+
+
+
+
+
+
+#########################################
 `rm -f $out.zscore`;
 open (OUT, ">>$out.zscore");
 
@@ -218,6 +270,7 @@ sub peptide_counts {
 	
 	return(\%FILE1, \%FILE1_prob, \%FILE1_apex, \%FILE1_oi, $totalpepts1);
 } # sub peptide_counts
+
 # ======================================================================================
 # ======================================================================================
 sub log10  {
