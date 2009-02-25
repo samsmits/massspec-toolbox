@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <bioml label="x! taxon-to-file matching list">
 	<taxon label="ECOLI_BKRB2">
-		<file format="peptide" URL="/work2/MassSpec/DB/ECOLI_MG1655.BKRB2.aa.pro" />
+		<file format="peptide" URL="/work/MassSpec/DB/ECOLI_MG1655.BKRB2.aa.pro" />
 	</taxon>
 	<taxon label="YEAST_ensembl50">
-		<file format="peptide" URL="/work2/MassSpec/DB/YEAST.ensembl50.aa.pro" />
+		<file format="peptide" URL="/work/MassSpec/DB/YEAST.ensembl50.aa.pro" />
+	</taxon>
+	<taxon label="YEAST_P12">
+		<file format="peptide" URL="/work/MassSpec/DB/YEAST_spike/YEAST.ensembl50.P12.aa.pro" />
+	</taxon>
+	<taxon label="PSEAE_clinical">
+		<file format="peptide" URL="/work/MassSpec/DB/PSEAE_clinical/PSEAE_208964.20081007.aa" />
 	</taxon>
 </bioml>
