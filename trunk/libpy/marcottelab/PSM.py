@@ -6,7 +6,7 @@ class SearchHit:
     self.peptide_mass = 0
     self.mass_diff = 0.0
     self.missed_cleavage = 0
-    self.protein_list = set()
+    self.protein_list = []
 
 class CruxHit(SearchHit):
   def __init__(self):
