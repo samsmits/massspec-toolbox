@@ -29,7 +29,7 @@ def read_inspect_out(filename):
     current_hit.next_aa = peptides[-1]
     current_hit.peptide_mass = tokens[ header_idx['PrecursorMZ'] ]
     current_hit.significance = tokens[ header_idx['p-value'] ]
-    current_hit.protein_list.add( tokens[ header_idx['Protein'] ] )
+    current_hit.protein_list.append( tokens[ header_idx['Protein'] ] )
 
     if( not MS2_list.has_key( scan_id ) ):
       MS2_list[scan_id] = spectra.MS2()
