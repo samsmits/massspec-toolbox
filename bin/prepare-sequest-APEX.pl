@@ -7,6 +7,7 @@ use File::Spec;
 my %files_protlst;
 foreach my $file_protlst (`ls sequest.xinteract/*protlst*`) {
   chomp($file_protlst);
+  print STDERR $file_protlst,"\n";
   if( $file_protlst =~ /([A-z0-9]+).sequest.xinteract/ ) {
     $files_protlst{$1} = $file_protlst;
   }
