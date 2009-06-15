@@ -19,7 +19,8 @@ my $current_dir = getcwd();
 my %files;
 foreach my $file_csm (`ls ./crux/*.csm.gz`) {
   chomp($file_csm);
-  if( $file_csm =~ /([0-9]+_[A-z0-9]+_[0-9])/ ) {
+  #if( $file_csm =~ /([0-9]+_[A-z0-9]+_[0-9])/ ) {
+  if( $file_csm =~ /[0-9]+_([A-z0-9]+)_[0-9]/ ) {
     $files{$1}->{$file_csm} = 1;
   }
 }

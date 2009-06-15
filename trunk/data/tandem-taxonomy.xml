@@ -12,4 +12,10 @@
 	<taxon label="PSEAE_clinical">
 		<file format="peptide" URL="/work/MassSpec/DB/PSEAE_clinical/PSEAE_208964.20081007.aa" />
 	</taxon>
+	<taxon label="YEAST_cvogel">
+		<file format="peptide" URL="/home/taejoon/MS.cygnus/DB/YEAST_cvogel/YEAST_cvogel.SGD200604.fasta" />
+	</taxon>
+	<taxon label="HUMAN_cvogel">
+    <file format="peptide" URL="/home/taejoon/MS.cygnus/DB/HUMAN_cvogel/HUMAN_cvogel.44_36f_longest.fasta" />
+	</taxon>
 </bioml>

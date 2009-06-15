@@ -17,9 +17,10 @@ my $file_script = "run-crux-percolator.sh";
 
 my $current_dir = getcwd();
 my %files;
-foreach my $file_csm (`ls ./crux/*.csm.gz`) {
+foreach my $file_csm (`ls ./crux/*.csm`) {
   chomp($file_csm);
-  if( $file_csm =~ /([0-9]+_[A-z0-9]+_[0-9])/ ) {
+  #if( $file_csm =~ /([0-9]+_[A-z0-9]+_[0-9])/ ) {
+  if( $file_csm =~ /[0-9]+_([A-z0-9]+)_[0-9]/ ) {
     $files{$1}->{$file_csm} = 1;
   }
 }
@@ -31,7 +32,7 @@ foreach my $sample (sort keys %files) {
   foreach my $file_csm (keys %{$files{$sample}}) {
     print SCRIPT "cp $file_csm tmp/\n";
   }
-  print SCRIPT "gunzip tmp/*\n";
+  print SCRIPT "gunzip tmp/*.gz\n";
 
   my $file_percolator = File::Spec->catfile($dir_current,'crux',
                                       $sample.'.percolator_sqt');
