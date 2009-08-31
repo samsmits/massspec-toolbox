@@ -10,6 +10,7 @@ my $project_name = pop(@parent_dirs);
 my $file_output = $project_name.'.sequest.summary';
 
 my %spectra;
+=rem
 foreach my $file_pepxml (`ls sequest.pepxml/*.pepxml`) {
   chomp($file_pepxml);
   print STDERR "Read $file_pepxml ... ";
@@ -33,7 +34,7 @@ foreach my $file_pepxml (`ls sequest.pepxml/*.pepxml`) {
   close(PEPXML);
   print STDERR "Done\n";
 }
-
+=cut
 foreach my $file_xinteract (`ls sequest.xinteract/*.xinteract.xml`) {
   chomp($file_xinteract);
 
