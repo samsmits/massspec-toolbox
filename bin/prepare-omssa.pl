@@ -55,7 +55,8 @@ foreach my $file_mgf (`ls mgf/*mgf`) {
       $file_mgf_part = File::Spec->catfile(getcwd(),'omssa',$filename_mgf_part);
       print STDERR "Write $file_mgf_part\n";
       print SHELL $path_omssacl,' -d ',$path_db,' -fm ',$file_mgf_part,
-          ' -mx ',$path_mods_xml, ' -oc ',$file_mgf_part,".omssa\n";
+          ' -mx ',$path_mods_xml, ' -oc ',$file_mgf_part,".omssa",
+          ' -op ',$file_mgf_part,".pepxml\n";
       print SHELL 'rm ',$file_mgf_part,"\n";
       $count_ion = 0;
       open(MGFPART,">$file_mgf_part");

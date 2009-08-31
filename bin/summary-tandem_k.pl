@@ -10,6 +10,7 @@ my $project_name = pop(@parent_dirs);
 my $file_output = $project_name.'.tandem_k.summary';
 
 my %spectra;
+=rem
 foreach my $file_pepxml (`ls tandem_k/*.pepxml`) {
   chomp($file_pepxml);
   print STDERR "Read $file_pepxml ... ";
@@ -33,7 +34,7 @@ foreach my $file_pepxml (`ls tandem_k/*.pepxml`) {
   close(PEPXML);
   print STDERR "Done\n";
 }
-
+=cut
 foreach my $file_xinteract (`ls tandem_k.xinteract/*.xinteract.xml`) {
   chomp($file_xinteract);
 

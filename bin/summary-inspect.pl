@@ -10,6 +10,7 @@ my $project_name = pop(@parent_dirs);
 my $file_output = $project_name.'.inspect.summary';
 
 my %spectra;
+=rem
 foreach my $file_inspect (`ls inspect/*.out`) {
   chomp($file_inspect);
   print STDERR "Read $file_inspect ... ";
@@ -35,8 +36,9 @@ foreach my $file_inspect (`ls inspect/*.out`) {
   close(INSP);
   print STDERR "Done\n";
 }
+=cut
 
-foreach my $file_inspect (`ls inspect.PValue/*.out`) {
+foreach my $file_inspect (`ls inspect/*.Pvalue`) {
   chomp($file_inspect);
   print STDERR "Read $file_inspect ... ";
   open(INSP,$file_inspect);
