@@ -1,13 +1,20 @@
 #!/usr/bin/python
 import sys
-import base64
-import struct
-import xml.parsers.expat
+import os
 
 from marcottelab.MSScan import MS1Scan, MS2Scan
 from marcottelab.mzxml import MzXML
 
-filename_mzXML = 'test.mzXML'
+usage_mesg = 'mzxml-to-mzsql.py <mzXML file>'
+if( len(sys.argv) != 2 ):
+    print usage_mesg
+    sys.exit(1)
+
+filename_mzXML = sys.argv[1]
+if( not os.access(filename_mzXML,os.R_OK) ):
+    print "%s is not accessible."%filename_mzXML
+    print usage_mesg
+    sys.exit(1)
 
 mzXML = MzXML()
 mzXML.parse_file(filename_mzXML)
