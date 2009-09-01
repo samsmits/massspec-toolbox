@@ -2,11 +2,12 @@
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path_conf = &get_path();
 unless(-d 'tandem/') {
-  die "TANDEM files are not prepared properly. Check tandem/\n";
+  print STDERR "TANDEM files are not prepared properly. Check tandem/\n";
+  exit(1);
 }
 
 my $file_script = 'run-tandem.xinteract.sh';

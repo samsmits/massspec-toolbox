@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use File::Spec;
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path_conf = &get_path();
 unless(-d 'sequest.pepxml') {
@@ -15,7 +15,7 @@ my $is_compressed = 0;
 foreach my $file_pepxml (`ls sequest.pepxml/*.pepxml*`) {
   chomp($file_pepxml);
   if( $file_pepxml =~ /gz/ ) { $is_compressed = 1; }
-  if( $file_pepxml =~ /[0-9]+\_([A-z0-9]+)\_[0-9]/ ) {
+  if( $file_pepxml =~ /[A-z0-9]+\_([A-z0-9]+)\_[0-9]/ ) {
     $files{$1}->{$file_pepxml} = 1;
   }
 }

@@ -3,11 +3,11 @@ use Cwd 'abs_path';
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path_conf = &get_path();
 
-my $file_db = $path_conf->{'DB'};
+my $file_db = $path_conf->{'FASTA_file'};
 my $file_script = "run-srf2pepxml.sh";
 my $dir_output = "sequest.pepxml";
 
@@ -29,5 +29,3 @@ foreach my $file_srf (`ls SRF/*.srf`) {
 }
 close(SCRIPT);
 `chmod 744 $file_script`;
-
-#671* bioworks_to_pepxml.rb --dbpath ../DB/YEAST.ensembl50.aa --outdir sequest.pepxml/ SRF/062404_005a.srf 

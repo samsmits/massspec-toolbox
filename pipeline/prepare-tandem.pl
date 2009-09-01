@@ -3,119 +3,77 @@ use File::Spec;
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/tandem.pl';
 
 my $path_conf = &get_path();
-if( not exists $path_conf->{'tandem'} ) {
-  print STDERR "tandem is not available in path.conf\n";
-  exit;
-}
-if( not exists $path_conf->{'tandem-taxonomy'} ) {
-  print STDERR "tandem-taxonomy is not available in path.conf\n";
+if( not exists $path_conf->{'tandem.exe'} ) {
+  print STDERR "tandem.exe is not available in path.conf\n";
   exit;
 }
 if( not exists $path_conf->{'tandem-input'} ) {
   print STDERR "tandem-input is not available in path.conf\n";
   exit;
 }
-my $path_tandem = $path_conf->{'tandem'};
-my $file_taxonomy = $path_conf->{'tandem-taxonomy'};
-my $file_input = $path_conf->{'tandem-input'};
-my $db_name = $path_conf->{'taxonomy'};
+my $path_tandem = $path_conf->{'tandem.exe'};
+my $filename_input = $path_conf->{'tandem-input'};
+
+my $DB_name = $path_conf->{'DB_name'};
+my $filename_fasta_pro = $path_conf->{'FASTA_file'}.'.pro';
 
 my $current_dir = File::Spec->rel2abs('.');
-my $tandem_dir = 'tandem';
-my $file_shell = 'run-tandem.sh';
+my $dirname_tandem = 'tandem';
+my $filename_shell = 'run-tandem.sh';
+my $filename_taxonomy = File::Spec->catfile($dirname_tandem,'taxonomy.xml');
+$filename_taxonomy = File::Spec->rel2abs($filename_taxonomy);
 
-unless( -d $tandem_dir ) {
-  print STDERR "Make $tandem_dir\n";
-  `mkdir $tandem_dir`;
+unless( -d $dirname_tandem ) {
+  print STDERR "Make $dirname_tandem\n";
+  `mkdir $dirname_tandem`;
 }
 
-open(SHELL, ">$file_shell");
+open(TAX,">$filename_taxonomy");
+print TAX &tandem_taxonomy_xml('-DB_name'=>$DB_name, '-fasta_pro'=>$filename_fasta_pro);
+close(TAX);
+
+open(SHELL, ">$filename_shell");
 print SHELL "#!/bin/bash\n";
-foreach my $file_mzxml (`ls mzXML/*mzXML`) {
-  chomp($file_mzxml);
-  $file_mzxml = File::Spec->rel2abs($file_mzxml);
-  my $file_base = 'unknown';
-  if( $file_mzxml =~ /mzXML\/([A-z0-9_\-\.]+)\.mzXML/ ) {
-    $file_base = $1;
+foreach my $filename_mzxml (`ls mzXML/*mzXML`) {
+  chomp($filename_mzxml);
+  $filename_mzxml = File::Spec->rel2abs($filename_mzxml);
+  my $filename_base = 'unknown';
+  if( $filename_mzxml =~ /mzXML\/([A-z0-9_\-\.]+)\.mzXML/ ) {
+    $filename_base = $1;
   }
-  if( $file_base eq 'unknown' ) {
-    die "Unknown file_base : $file_mzxml\n";
+  if( $filename_base eq 'unknown' ) {
+    die "Unknown file_base : $filename_mzxml\n";
   }
 
   #print STDERR $file_base,"\n";
-  my $file_config = $file_base.'.tandem.xml';
-  $file_config = File::Spec->catfile($current_dir,$tandem_dir,$file_config);
-  my $file_output = $file_base.'.tandem.out';
-  $file_output = File::Spec->catfile($current_dir,$tandem_dir,$file_output);
-  my $file_seq = $file_base.'.tandem.seq';
-  $file_seq = File::Spec->catfile($current_dir,$tandem_dir,$file_seq);
-  my $file_log = $file_base.'.tandem.log';
-  $file_log = File::Spec->catfile($current_dir,$tandem_dir,$file_log);
-  my $file_pepxml = $file_base.'.tandem.pepxml';
-  $file_pepxml = File::Spec->catfile($current_dir,$tandem_dir,$file_pepxml);
+  my $filename_config = $filename_base.'.tandem.xml';
+  $filename_config = File::Spec->catfile($current_dir,$dirname_tandem,$filename_config);
+  my $filename_output = $filename_base.'.tandem.out';
+  $filename_output = File::Spec->catfile($current_dir,$dirname_tandem,$filename_output);
+  my $filename_seq = $filename_base.'.tandem.seq';
+  $filename_seq = File::Spec->catfile($current_dir,$dirname_tandem,$filename_seq);
+  my $filename_log = $filename_base.'.tandem.log';
+  $filename_log = File::Spec->catfile($current_dir,$dirname_tandem,$filename_log);
+  my $filename_pepxml = $filename_base.'.tandem.pepxml';
+  $filename_pepxml = File::Spec->catfile($current_dir,$dirname_tandem,$filename_pepxml);
 
-  print STDERR "Write $file_config ... ";
-  open(CONF,">$file_config");
+  print STDERR "Write $filename_config ... ";
+  open(CONF,">$filename_config");
   print CONF &tandem_config_xml( 
-                        -input_xml => $file_input,
-                        -mzXML => $file_mzxml, -output => $file_output,
-                        -seq => $file_seq, -log => $file_log,
-                        -taxonomy => $file_taxonomy, 
-                        -db_name => $db_name),"\n";
+                        '-input_xml' => $filename_input,
+                        '-mzXML' => $filename_mzxml, 
+                        '-output' => $filename_output,
+                        '-seq' => $filename_seq, 
+                        '-log' => $filename_log,
+                        '-taxonomy' => $filename_taxonomy, 
+                        '-db_name' => $DB_name),"\n";
   close(CONF);
   print STDERR "Done\n";
-  print SHELL $path_tandem,' ',$file_config,"\n";
+  print SHELL $path_tandem,' ',$filename_config,"\n";
 }
 close(SHELL);
-`chmod 744 $file_shell`;
-
-sub tandem_config_xml {
-  my %param = @_;
-
-  my $rv = '<?xml version="1.0" encoding="UTF-8"?><bioml>'."\n";
-  $rv .= '<note type="input" label="list path, default parameters">';
-  $rv .= $param{-input_xml}."</note>\n";
-
-  $rv .= '<note type="input" label="spectrum, path">';
-  $rv .= $param{-mzXML}."</note>\n";
-
-  $rv .= '<note type="input" label="output, path">';
-  $rv .= $param{-output}."</note>\n";
-
-  $rv .= '<note type="input" label="output, log path">';
-  if( exists $param{-log} ) {
-    $rv .= $param{-log}."</note>\n";
-  } else {
-    $rv .= "</note>\n";
-  }
-
-  $rv .= '<note type="input" label="output, sequence path">';
-  if( exists $param{-seq} ) {
-    $rv .= $param{-seq}."</note>\n";
-  } else {
-    $rv .= "</note>\n";
-  }
-
-  $rv .= '<note type="input" label="list path, taxonomy information">';
-  $rv .= $param{-taxonomy}."</note>\n";
-
-  $rv .= '<note type="input" label="protein, taxon">';
-  $rv .= $param{-db_name}."</note>\n";
- 
-  $rv .= '<note type="input" label="spectrum, parent monoisotopic mass error minus">2.0</note>
-<note type="input" label="spectrum, parent monoisotopic mass error plus">4.0</note>
-<note type="input" label="spectrum, parent monoisotopic mass error units">Daltons</note>
-<note type="input" label="spectrum, parent monoisotopic mass isotope error">no</note>
-
-	
-<note type="input" label="residue, modification mass">57.021464@C</note>
-
-<note type="input" label="protein, cleavage semi">yes</note>
-<note type="input" label="scoring, maximum missed cleavage sites">2</note>
-</bioml>';
-
-  return $rv;
-}
+`chmod 744 $filename_shell`;

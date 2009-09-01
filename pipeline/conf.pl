@@ -10,7 +10,7 @@ sub get_path {
   if(not -f './DB/DBINFO' and not -f '../DB/DBINFO' ) {
     print STDERR "'DB' file is not available on parent directory.\n";
     print STDERR "Make 'DB' file containing full path of DB file.\n";
-    exit;
+    #exit;
   }
 
   open(CONF,$ENV{'MASSSPEC_TOOLBOX_HOME'}.'/config/path.conf');
@@ -28,7 +28,7 @@ sub get_path {
   elsif( -f './DB/DBINFO' ) { open(DB,"./DB/DBINFO"); }
 
   my $db_line = <DB>; chomp($db_line);
-  ($rv{'taxonomy'}, $rv{'DB'}) = split(/\s+/,$db_line);
+  ($rv{'DB_name'}, $rv{'FASTA_file'}) = split(/\s+/,$db_line);
   close(DB);
 
   return \%rv;

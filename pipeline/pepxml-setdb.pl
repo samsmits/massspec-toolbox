@@ -2,13 +2,16 @@
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path_conf = &get_path();
-my $file_db = $path_conf->{'DB'};
+my $file_db = $path_conf->{'FASTA_file'};
 
-foreach my $file_pepxml (`ls *.pepxml`) {
+foreach my $file_pepxml (`ls sequest.pepxml/*.pepxml`) {
   chomp($file_pepxml);
+  print STDERR $file_pepxml,"\n";
+  next;
+
   my $file_pepxml_bak = $file_pepxml.'.bak';
   `mv $file_pepxml $file_pepxml_bak`;
   print STDERR "$file_pepxml_bak -> $file_pepxml\n";

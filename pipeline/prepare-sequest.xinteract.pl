@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/config/conf.pl';
 
 my $path_conf = &get_path();
 unless(-d 'sequest.pepxml') {
