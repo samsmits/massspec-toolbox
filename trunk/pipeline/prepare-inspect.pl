@@ -4,7 +4,7 @@ use File::Spec;
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 my $path_conf = &get_path();
 
 my $dir_current = File::Spec->rel2abs('.');

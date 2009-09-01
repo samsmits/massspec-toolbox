@@ -6,13 +6,13 @@ use File::Spec;
 require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path_conf = &get_path();
-unless(-d 'tandem_k') {
-  die "tandem_k files are not prepared properly. Check tandem_k/\n";
+unless(-d 'tandem') {
+  die "tandemfiles are not prepared properly. Check tandem/\n";
 }
 
 my %files;
 my $is_compressed = 0;
-foreach my $file_pepxml (`ls tandem_k/*.pepxml*`) {
+foreach my $file_pepxml (`ls tandem/*.pepxml*`) {
   chomp($file_pepxml);
   if( $file_pepxml =~ /gz/ ) { $is_compressed = 1; }
   if( $file_pepxml =~ /[A-z0-9]+\_([A-z0-9]+)\_[0-9]/ ) {
@@ -20,7 +20,7 @@ foreach my $file_pepxml (`ls tandem_k/*.pepxml*`) {
   }
 }
 
-my $file_script = 'run-tandem_k.xinteract-combined.sh';
+my $file_script = 'run-tandem.xinteract-combined.sh';
 open(SCRIPT,">$file_script");
 print SCRIPT "#!/bin/bash\n";
 foreach my $sample (sort keys %files) {
@@ -33,12 +33,12 @@ foreach my $sample (sort keys %files) {
     print SCRIPT "gunzip tmp/*\n";
   }
 
-  my $file_xinteract = File::Spec->catfile('tandem_k.xinteract',
-                                    $sample.'.tandem_k.xinteract.xml');
-  my $file_xinteract_prot = File::Spec->catfile('tandem_k.xinteract',
-                                    $sample.'.tandem_k.xinteract.prot.xml');
-  my $file_xinteract_summary = File::Spec->catfile('tandem_k.xinteract',
-                                    $sample.'.tandem_k.xinteract.summary');
+  my $file_xinteract = File::Spec->catfile('tandem.xinteract',
+                                    $sample.'.tandem.xinteract.xml');
+  my $file_xinteract_prot = File::Spec->catfile('tandem.xinteract',
+                                    $sample.'.tandem.xinteract.prot.xml');
+  my $file_xinteract_summary = File::Spec->catfile('tandem.xinteract',
+                                    $sample.'.tandem.xinteract.summary');
 
   print SCRIPT $path_conf->{'xinteract'},' -N',$file_xinteract
               ," -Op tmp/*.pepxml\n";

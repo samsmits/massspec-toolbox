@@ -27,10 +27,12 @@ my $path_mzXML2Search = $path->{'MzXML2Search'};
 foreach my $filename_mzXML (`ls $dirname_mzXML/`) {
   chomp($filename_mzXML);
   if( $filename_mzXML !~ /.mzXML$/ ) { next; }
-  $filename_mzXML = File::Spec->catfile($dirname_mzXML,$filename_mzXML);
   my $filename_mgf = $filename_mzXML;
   $filename_mgf =~ s/mzXML/mgf/g;
+  $filename_mzXML = File::Spec->catfile($dirname_mzXML,$filename_mzXML);
+  my $filename_mgf_temp = File::Spec->catfile($dirname_mzXML,$filename_mgf);
+  $filename_mgf = File::Spec->catfile($dirname_mgf,$filename_mgf);
   print STDERR $filename_mzXML," --> ",$filename_mgf,"\n";
   `$path_mzXML2Search -mgf $filename_mzXML`;
-  `mv $filename_mzXML $filename_mgf`;
+  `mv $filename_mgf_temp $filename_mgf`;
 }
