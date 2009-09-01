@@ -1,9 +1,9 @@
 sub get_path {
   my %rv; 
-  my $file_conf = $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/data/path.conf';
+  my $file_conf = $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/config/path.conf';
 
   unless( -f $file_conf ) {
-    print STDERR "data/path.conf is not available in masspec-toolbox\n";
+    print STDERR "config/path.conf is not available in masspec-toolbox\n";
     exit;
   }
   
@@ -13,7 +13,7 @@ sub get_path {
     exit;
   }
 
-  open(CONF,$ENV{'MASSSPEC_TOOLBOX_HOME'}.'/data/path.conf');
+  open(CONF,$ENV{'MASSSPEC_TOOLBOX_HOME'}.'/config/path.conf');
   while(<CONF>) {
     next if(/^#/);
     next unless(/^[A-z0-9]+/);
