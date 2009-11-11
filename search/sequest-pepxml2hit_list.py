@@ -24,7 +24,7 @@ filename_out += '.hit_list'
 sys.stderr.write("Write %s ... \n"%filename_out)
 f_out = open(filename_out,'w')
 f_out.write("# pepxml: %s\n"%filename_pepxml)
-f_out.write("#Spectrum_id\tCharge\tNeutralMass\tPeptide\tProtein\tXcorr\tDeltaCn\n")
+f_out.write("#Spectrum_id\tCharge\tNeutralMass\tPeptide\tProtein\tAbsScore(Xcorr)\tRelScore(DeltaCn)\n")
 for spectrum_id in PSM.keys():
     charge = PSM[spectrum_id]['charge']
     neutral_mass = PSM[spectrum_id]['neutral_mass']
