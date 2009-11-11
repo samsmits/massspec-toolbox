@@ -32,6 +32,10 @@ class pepxml_parser(xml.sax.ContentHandler):
                 self.search_hit['spscore'] = float(attr['value'])
             if(attr['name'] == 'deltacn'):
                 self.search_hit['deltacn'] = float(attr['value'])
+            if(attr['name'] == 'hyperscore'):
+                self.search_hit['hyperscore'] = float(attr['value'])
+            if(attr['name'] == 'expect'):
+                self.search_hit['expect'] = float(attr['value'])
             
     def endElement(self,name):
         if( len(self.element_array) == 3 and name == 'spectrum_query' ):
