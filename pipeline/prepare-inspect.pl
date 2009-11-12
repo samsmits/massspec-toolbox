@@ -8,10 +8,10 @@ require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 my $path_conf = &get_path();
 
 my $dir_current = File::Spec->rel2abs('.');
-my $db_name = $path_conf->{'DB'};
+my $db_name = $path_conf->{'DB_name'};
 $db_name =~ s/\.aa$//;
 $db_name =~ s/\.fasta$//;
-$db_name = $db_name.'RS.trie';
+#$db_name = $db_name.'RS.trie';
 
 my $file_script = "run-inspect.sh";
 my $file_Pvalue_script = "run-inspect-PValue.sh";
@@ -27,11 +27,13 @@ foreach my $file_mzxml (`ls ./mzXML/*.mzXML`) {
   my $file_inspect_in = $file_mzxml;
   $file_inspect_in =~ s/mzXML/inspect/;
   $file_inspect_in =~ s/mzXML$/inspect.in/;
+  $file_inspect_in .= '.'.$db_name;
   $file_inspect_in = File::Spec->catfile($dir_current, $file_inspect_in);
 
-  my $file_inspect_out = $file_mzxml;
+  my $file_inspect_out = $file_mzxml.'.'.$db_name;
   $file_inspect_out =~ s/mzXML/inspect/;
   $file_inspect_out =~ s/mzXML$/inspect.out/;
+  $file_inspect_out .= '.'.$db_name;
   $file_inspect_out = File::Spec->catfile($dir_current, $file_inspect_out);
   
   my $file_inspect_Pvalue = $file_inspect_out;
@@ -41,7 +43,8 @@ foreach my $file_mzxml (`ls ./mzXML/*.mzXML`) {
   print INSPECT 'spectra,',File::Spec->catfile($dir_current, $file_mzxml),"\n";
   print INSPECT "instrument,ESI-ION-TRAP\n";
   print INSPECT "protease,Trypsin\n";
-  print INSPECT "DB,$db_name\n";
+  #print INSPECT "DB,$db_name\n";
+  print INSPECT "DB,/home/taejoon/MS.project/DB/UPS/$db_name"."RS.trie\n";
   print INSPECT "TagCount,50\n";
   print INSPECT "PMTolerance,2.5\n";
   print INSPECT "mod,57,C,fix\n";

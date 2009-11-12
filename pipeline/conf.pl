@@ -6,12 +6,12 @@ sub get_path {
     print STDERR "config/path.conf is not available in masspec-toolbox\n";
     exit;
   }
-  
-  if(not -f './DB/DBINFO' and not -f '../DB/DBINFO' ) {
-    print STDERR "'DB' file is not available on parent directory.\n";
-    print STDERR "Make 'DB' file containing full path of DB file.\n";
-    #exit;
-  }
+
+  #if(not -f './DB/DBINFO' and not -f '../DB/DBINFO' ) {
+  #  print STDERR "'DB' file is not available on parent directory.\n";
+  #  print STDERR "Make 'DB' file containing full path of DB file.\n";
+  #  exit;
+  #}
 
   open(CONF,$ENV{'MASSSPEC_TOOLBOX_HOME'}.'/config/path.conf');
   while(<CONF>) {

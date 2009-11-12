@@ -4,11 +4,11 @@ use File::Spec;
 use strict;
 use warnings;
 
-require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/bin/conf.pl';
+require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 my $path_conf = &get_path();
 
 my $dir_current = File::Spec->rel2abs('.');
-my $db_name = $path_conf->{'DB'};
+my $db_name = $path_conf->{'DB_name'};
 $db_name =~ s/\.aa$//;
 $db_name =~ s/\.fasta$//;
 $db_name = $db_name.'.crux-index';
@@ -27,24 +27,26 @@ foreach my $file_ms2 (`ls ./ms2/*.ms2`) {
 
   my $file_crux_target = $file_ms2;
   $file_crux_target =~ s/\.\/ms2\///;
-  $file_crux_target =~ s/ms2$/crux.target_sqt/;
+  #$file_crux_target =~ s/ms2$/crux.target_sqt/;
   #$file_crux_target = File::Spec->catfile($dir_current, $file_crux_target);
 
   my $file_crux_decoy = $file_crux_target;
   $file_crux_decoy =~ s/target_sqt$/decoy_sqt/;
   
   open(CRUX,">$file_crux_in");
-  print CRUX "use-index=TRUE\n";
-  print CRUX "match-output-folder=crux\n";
-  print CRUX "output-mode=all\n";
-  print CRUX "sqt-output-file=$file_crux_target\n";
-  print CRUX "decoy-sqt-output-file=$file_crux_decoy\n";
-  print CRUX "max-sqt-result=5\n";
+  #print CRUX "output-dir=crux\n";
+  #print CRUX "output-mode=all\n";
+  #print CRUX "sqt-output-file=$file_crux_target\n";
+  #print CRUX "decoy-sqt-output-file=$file_crux_decoy\n";
+  #print CRUX "max-sqt-result=5\n";
   print CRUX "C=57.000000\n";
   close(CRUX);
 
-  print SCRIPT $path_conf->{'crux'},' search-for-matches --parameter-file ',
-                  $file_crux_in,' ',$file_ms2,' ',$db_name,"\n";
+  print SCRIPT $path_conf->{'crux'},' search-for-matches ',
+                ' --output-dir crux --decoy-location separate-decoy-files ',
+                ' --fileroot ',$file_crux_target,' --overwrite T ',
+                ' --parameter-file ',$file_crux_in,
+                ' ',$file_ms2,' DB/',$db_name,"\n";
 }
 close(SCRIPT);
 

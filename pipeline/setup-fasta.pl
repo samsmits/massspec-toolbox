@@ -6,7 +6,7 @@ require $ENV{'MASSSPEC_TOOLBOX_HOME'}.'/pipeline/conf.pl';
 
 my $path = &get_path();
 
-my $usage_mesg = "Usage: /pipeline/setup-DB.pl <DB name> <FASTA file>";
+my $usage_mesg = "Usage: /pipeline/setup-fasta.pl <DB name> <FASTA file>";
 if( $#ARGV != 1 ) {
   print STDERR $usage_mesg,"\n";
   exit(1);
