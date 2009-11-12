@@ -8,7 +8,7 @@ import massspec_toolbox_config as conf
 
 
 filename_run = 'run-inspect.sh'
-filename_pvalue = 'run-inspect-Pvalue.sh'
+filename_pvalue = 'run-inspect-PValue.sh'
 
 inspect_basedir = conf.get_inspect_path('')
 current_dirname = os.getcwd()
@@ -45,7 +45,7 @@ for filename_mzXML in os.listdir('mzXML'):
 
     inspect_bin = conf.get_inspect_path('inspect')
     f_run.write("%s -r %s -i %s -o %s\n"%(inspect_bin,inspect_basedir,filename_in_abs,filename_out_abs))
-    f_pvalue.write("python Pvalue.py -r %s -w %s -S 0.5\n"%(filename_out_abs,filename_p_abs))
+    f_pvalue.write("python PValue.py -r %s -w %s -S 0.5\n"%(filename_out_abs,filename_p_abs))
 
 f_run.close()
 f_pvalue.write("cd %s\n"%current_dirname)
