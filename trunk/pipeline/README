@@ -1,0 +1,6 @@
+Things to set for using this pipeline
+
+1. Environment (your ~/.bashrc if you use bash)
+
+PATH=/usr/local/src/TPP/bin:$PATH
+(to remove tpp_hostname complain when you run ProteinProphet)

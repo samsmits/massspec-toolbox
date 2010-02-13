@@ -6,6 +6,8 @@ tandem_basedir = '/home/taejoon/MS.project/bin64/'
 inspect_basedir = '/home/taejoon/MS.project/src64/inspect/'
 crux_basedir = '/home/taejoon/MS.project/bin64/'
 omssa_basedir = '/usr/local/src/omssa-2.1.4.linux/'
+TPP_basedir = '/usr/local/src/TPP-4.3.0/'
+TPP_bindir = '/usr/local/src/TPP-4.3.0/bin/'
 
 def get_conf():
     f_conf = open('CONF','r')
@@ -23,8 +25,7 @@ def get_dbinfo():
     return db_name, filename_fasta
 
 def get_TPP_path(filename):
-    TPP_basedir = '/usr/local/tpp/bin/'
-    return os.path.join(TPP_basedir,filename)
+    return os.path.join(TPP_bindir,filename)
 
 def get_tandem_path(filename):
     if( filename == 'tandem-input' ):
@@ -48,5 +49,5 @@ def get_omssa_path(filename):
     return os.path.join(omssa_basedir,filename)
 
 ## APEX
-def get_TPP2APEX_parser(filename):
+def get_TPP2APEX_parser():
     return os.path.join(toolbox_home,'APEX','np_parse_ProteinProphet.pl')
