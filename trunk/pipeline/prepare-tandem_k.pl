@@ -47,6 +47,7 @@ foreach my $filename_mzxml (`ls mzXML/*mzXML`) {
   if( $filename_base eq 'unknown' ) {
     die "Unknown file_base : $filename_mzxml\n";
   }
+  $filename_base = $filename_base.'.'.$DB_name;
 
   #print STDERR $file_base,"\n";
   my $filename_config = $filename_base.'.tandem_k.xml';

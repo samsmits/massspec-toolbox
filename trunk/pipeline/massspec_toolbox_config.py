@@ -7,10 +7,19 @@ inspect_basedir = '/home/taejoon/MS.project/src64/inspect/'
 crux_basedir = '/home/taejoon/MS.project/bin64/'
 omssa_basedir = '/usr/local/src/omssa-2.1.4.linux/'
 
+def get_conf():
+    f_conf = open('CONF','r')
+    rv = dict()
+    for line in f_conf:
+        tokens = line.strip().split()
+        rv[tokens[0]] = tokens[1]
+    f_conf.close()
+    return rv
+
 def get_dbinfo():
-    f_dbinfo = open('DB/DBINFO','r')
-    (db_name, filename_fasta) = f_dbinfo.readline().strip().split()
-    f_dbinfo.close()
+    rv_conf = get_conf()
+    db_name = rv_conf['DB_NAME']
+    filename_fasta = rv_conf['DB_FILE']
     return db_name, filename_fasta
 
 def get_TPP_path(filename):

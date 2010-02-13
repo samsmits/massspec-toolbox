@@ -6,7 +6,6 @@ import massspec_toolbox_config as conf
 
 (db_name, filename_fasta) = conf.get_dbinfo()
 
-
 filename_run = 'run-inspect.sh'
 filename_pvalue = 'run-inspect-PValue.sh'
 
