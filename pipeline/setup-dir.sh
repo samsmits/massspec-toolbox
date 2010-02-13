@@ -1,5 +1,5 @@
 #!/bin/bash
-MS_DIRS=('DB' 'RAW' 'mzXML' 'ms1' 'ms2' 'mgf'
+MS_DIRS=('DB' 'RAW' 'mzXML' 'ms1' 'ms2' 'mgf' 'tmp'
          'SRF' 'sequest.pepxml' 'inspect' 'omssa' 'crux' 'tandem' 'tandem_k'
          'sequest.xinteract' 'tandem.xinteract' 'tandem_k.xinteract')
 
