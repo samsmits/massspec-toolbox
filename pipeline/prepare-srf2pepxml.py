@@ -16,7 +16,7 @@ for filename_srf in os.listdir('./SRF'):
     if( not filename_srf.endswith('.srf') ):
         continue
     filename_old_pepxml = os.path.join(dirname_output,filename_srf.replace('.srf','')+'.xml')
-    filename_new_pepxml = os.path.join(dirname_output,filename_old_pepxml.replace('.xml','')+'.sequest.pepxml')
+    filename_new_pepxml = filename_old_pepxml.replace('.xml','')+'.sequest.pepxml'
     sys.stderr.write("Process %s ... \n"%filename_srf)
     f_script.write('echo "processing %s ..."\n'%filename_srf)
     f_script.write('bioworks_to_pepxml.rb --dbpath %s --outdir %s %s\n'%(filename_fasta,dirname_output,os.path.join('SRF',filename_srf)))
