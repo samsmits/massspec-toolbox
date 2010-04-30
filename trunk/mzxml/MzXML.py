@@ -1,6 +1,7 @@
 import sys
 import base64
 import struct
+import gzip
 import xml.parsers.expat
 from MSScan import MS1Scan, MS2Scan
 
@@ -103,15 +104,17 @@ class MzXML():
     def parse_file(self,filename_xml):
         sys.stderr.write("Read %s ... "%filename_xml)
         f_xml = open(filename_xml,'r')
-        content_xml = ''
+        if( filename_xml.endswith('.gz') ):
+            f_xml = gzip.open(filename_xml,'rb')
+        content_list = []
         for line in f_xml:
-            content_xml += line
+            content_list.append(line)
         f_xml.close()
 
         expat = xml.parsers.expat.ParserCreate()
         expat.StartElementHandler = self._start_element
         expat.EndElementHandler = self._end_element
         expat.CharacterDataHandler = self._char_data
-        expat.Parse(content_xml)
+        expat.Parse("".join(content_list))
         
         sys.stderr.write("Done\n")
