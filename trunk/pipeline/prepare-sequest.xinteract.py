@@ -22,7 +22,7 @@ for filename_pepxml in os.listdir('sequest.pepxml'):
     filename_xinteract = filename_base+'.xinteract.xml'
     filename_prot = filename_base+'.xinteract.prot.xml'
     filename_summary = filename_base+'.xinteract.summary'
-    f_script.write("%s -N%s -Op %s\n"%(path_xinteract,filename_xinteract,filename_pepxml))
+    f_script.write("%s -N%s -dxf_ -Op %s\n"%(path_xinteract,filename_xinteract,filename_pepxml))
     f_script.write("%s %s %.2f %s\n"%(path_APEX_parser,filename_prot,TPP_cutoff,filename_summary))
 f_script.close()
 os.chmod(filename_script,stat.S_IRWXU)
