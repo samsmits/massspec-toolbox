@@ -3,7 +3,7 @@ import os
 toolbox_home = '/home/taejoon/massspec-toolbox/'
 path_formatdb = '/usr/bin/formatdb'
 tandem_basedir = '/home/taejoon/MS.project/bin64/'
-inspect_basedir = '/home/taejoon/MS.project/src64/inspect/'
+inspect_basedir = '/home/taejoon/src/inspect/'
 crux_basedir = '/home/taejoon/MS.project/bin64/'
 omssa_basedir = '/usr/local/src/omssa-2.1.4.linux/'
 TPP_basedir = '/usr/local/src/TPP-4.3.0/'
@@ -33,6 +33,16 @@ def get_tandem_path(filename):
     elif( filename == 'tandem-input_k' ):
         return os.path.join(toolbox_home,'config','tandem-isb_input_kscore.xml')
     return os.path.join(tandem_basedir,filename)
+
+def write_tandem_taxonomy(dirname_output,db_name,filename_fasta):
+    filename_tax = os.path.join(dirname_output,'taxonomy.xml')
+    f_tax = open(filename_tax,'w')
+    f_tax.write('<?xml version="1.0"?>\n')
+    f_tax.write('<bioml label="x! taxon-to-file matching list">\n')
+    f_tax.write(' <taxon label="%s">\n'%db_name)
+    f_tax.write('  <file format="peptide" URL="%s.pro" />\n'%filename_fasta)
+    f_tax.write(' </taxon>\n')
+    f_tax.write('</bioml>\n')
 
 def get_inspect_path(filename):
     return os.path.join(inspect_basedir,filename)
