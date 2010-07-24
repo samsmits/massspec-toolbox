@@ -38,7 +38,7 @@ for filename_mzXML in os.listdir('mzXML'):
     filename_msgf_out = "%s.%s.inspect_msgf_out"%(filename_base,db_name)
     filename_msgf_out_abs = os.path.join(current_dirname,'inspect',filename_msgf_out)
     filename_msgf_pepxml = "%s.%s.inspect_msgf.pepXML"%(filename_base,db_name)
-    filename_msgf_pepxml_abs = os.path.join(current_dirname,'inspect',filename_msgf_out)
+    filename_msgf_pepxml_abs = os.path.join(current_dirname,'inspect',filename_msgf_pepxml)
 
     dirname_mzxml_abs = os.path.join(current_dirname,'mzXML')
 
