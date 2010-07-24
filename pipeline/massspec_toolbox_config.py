@@ -6,8 +6,8 @@ tandem_basedir = '/home/taejoon/MS.project/bin64/'
 inspect_basedir = '/home/taejoon/src/inspect/'
 crux_basedir = '/home/taejoon/MS.project/bin64/'
 omssa_basedir = '/usr/local/src/omssa-2.1.4.linux/'
-TPP_basedir = '/usr/local/src/TPP-4.3.0/'
-TPP_bindir = '/usr/local/src/TPP-4.3.0/bin/'
+TPP_basedir = '/usr/local/tpp/'
+TPP_bindir = '/usr/local/tpp/bin/'
 
 def get_conf():
     f_conf = open('CONF','r')
