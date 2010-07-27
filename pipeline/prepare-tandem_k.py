@@ -11,7 +11,7 @@ tandem_bin = conf.get_TPP_path('tandem.exe')
 tandem2xml_bin = conf.get_TPP_path('Tandem2XML')
 filename_fasta_pro = filename_fasta+'.pro'
 
-filename_param_abs = '/home/taejoon/massspec-toolbox/config/tandem-isb_input_native.xml'
+filename_param_abs = '/home/taejoon/massspec-toolbox/config/tandem-isb_input_kscore.xml'
 
 def tandem_taxonomy_xml(dbname=None, fasta_pro=None):
     xml_list = []
@@ -41,18 +41,21 @@ def tandem_config_xml(param=None, mzxml=None, output=None, log='', seq='', taxon
     xml_list.append('<note type="input" label="residue, modification mass">57.021464@C</note>')
     xml_list.append('<note type="input" label="protein, cleavage semi">yes</note>')
     xml_list.append('<note type="input" label="scoring, maximum missed cleavage sites">2</note>')
+    xml_list.append('<note label="scoring, algorithm" type="input">k-score</note>')
+    xml_list.append('<note label="spectrum, use conditioning" type="input">no</note>')
+    xml_list.append('<note label="scoring, minimum ion count" type="input">1</note>')
     xml_list.append('<note type="input" label="output, spectra">yes</note>')
     xml_list.append('</bioml>')
 
     return '\n'.join(xml_list)
 
-filename_taxonomy_abs = os.path.join(current_dirname, 'tandem', 'taxonomy.xml')
+filename_taxonomy_abs = os.path.join(current_dirname, 'tandem_k', 'taxonomy.xml')
 f_taxonomy = open(filename_taxonomy_abs,'w')
 f_taxonomy.write("%s\n"%(tandem_taxonomy_xml(fasta_pro=filename_fasta_pro,dbname=db_name)))
 f_taxonomy.close()
 
-filename_script = 'run-tandem.sh'
-dirname_output = 'tandem.%s'%db_name
+filename_script = 'run-tandem_k.sh'
+dirname_output = 'tandem_k.%s'%db_name
 
 f_shell = open(filename_script,'w')
 f_shell.write('#!/bin/bash\n')
@@ -61,16 +64,16 @@ for filename_mzxml in os.listdir('mzXML/'):
         continue
     filename_mzxml_abs = os.path.join(current_dirname,'mzXML',filename_mzxml)
     filename_base = filename_mzxml.replace('.mzXML','')
-    filename_in = filename_base+'.tandem.xml'
-    filename_in_abs = os.path.join(current_dirname,'tandem',filename_in)
-    filename_out = filename_base+'.tandem.out'
-    filename_out_abs = os.path.join(current_dirname,'tandem',filename_out)
-    filename_pepxml = filename_base+'.tandem.pepxml'
-    filename_pepxml_abs = os.path.join(current_dirname,'tandem',filename_pepxml)
-    filename_seq = filename_base+'.tandem.seq'
-    filename_seq_abs = os.path.join(current_dirname,'tandem',filename_in)
-    filename_log = filename_base+'.tandem.log'
-    filename_log_abs = os.path.join(current_dirname,'tandem',filename_in)
+    filename_in = filename_base+'.tandem_k.xml'
+    filename_in_abs = os.path.join(current_dirname,'tandem_k',filename_in)
+    filename_out = filename_base+'.tandem_k.out'
+    filename_out_abs = os.path.join(current_dirname,'tandem_k',filename_out)
+    filename_pepxml = filename_base+'.tandem_k.pepxml'
+    filename_pepxml_abs = os.path.join(current_dirname,'tandem_k',filename_pepxml)
+    filename_seq = filename_base+'.tandem_k.seq'
+    filename_seq_abs = os.path.join(current_dirname,'tandem_k',filename_in)
+    filename_log = filename_base+'.tandem_k.log'
+    filename_log_abs = os.path.join(current_dirname,'tandem_k',filename_in)
 
     tandem_config = tandem_config_xml(param=filename_param_abs,mzxml=filename_mzxml_abs,\
                                 output=filename_out_abs,dbname=db_name,\
