@@ -23,20 +23,52 @@ class pepxml_parser(xml.sax.ContentHandler):
         if( len(self.element_array) == 5 and name == 'search_hit' ):
             self.is_search_hit = True
             self.search_hit = dict()
+            self.search_hit['hit_rank'] = int(attr['hit_rank'])
             self.search_hit['peptide'] = attr['peptide']
             self.search_hit['protein'] = attr['protein']
+            self.search_hit['missed_cleavages'] = int(attr['num_missed_cleavages'])
         if( len(self.element_array) == 6 and name == 'search_score' ):
+            ## SEQUEST
             if(attr['name'] == 'xcorr'):
                 self.search_hit['xcorr'] = float(attr['value'])
             if(attr['name'] == 'spscore'):
                 self.search_hit['spscore'] = float(attr['value'])
             if(attr['name'] == 'deltacn'):
                 self.search_hit['deltacn'] = float(attr['value'])
+            ## X!Tandem
             if(attr['name'] == 'hyperscore'):
                 self.search_hit['hyperscore'] = float(attr['value'])
             if(attr['name'] == 'expect'):
                 self.search_hit['expect'] = float(attr['value'])
-            
+            ## InsPecT
+            if(attr['name'] == 'mqscore'):
+                self.search_hit['mqscore'] = float(attr['value'])
+            if(attr['name'] == 'expect'):
+                self.search_hit['expect'] = float(attr['value'])
+            if(attr['name'] == 'fscore'):
+                self.search_hit['fscore'] = float(attr['value'])
+            if(attr['name'] == 'deltascore'):
+                self.search_hit['deltascore'] = float(attr['value'])
+            ## MyriMatch
+            if(attr['name'] == 'mvh'):
+                self.search_hit['mvh'] = float(attr['value'])
+            if(attr['name'] == 'massError'):
+                self.search_hit['massError'] = float(attr['value'])
+            if(attr['name'] == 'mzSSE'):
+                self.search_hit['mzSSE'] = float(attr['value'])
+            if(attr['name'] == 'mzFidelity'):
+                self.search_hit['mzFidelity'] = float(attr['value'])
+            if(attr['name'] == 'newMZFidelity'):
+                self.search_hit['newMZFidelity'] = float(attr['value'])
+            if(attr['name'] == 'mzMAE'):
+                self.search_hit['mzMAE'] = float(attr['value'])
+            ## DirecTag-TagRecon
+            if(attr['name'] == 'numPTMs'):
+                self.search_hit['numPTMs'] = int(attr['value'])
+        ## PeptideProphet
+        if( len(self.element_array) == 7 and name == 'peptideprophet_result' ):
+            self.search_hit['TPP_pep_prob'] = float(attr['probability'])
+
     def endElement(self,name):
         if( len(self.element_array) == 3 and name == 'spectrum_query' ):
             self.spectrum_id = ''

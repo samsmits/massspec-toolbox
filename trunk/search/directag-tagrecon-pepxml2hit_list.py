@@ -4,7 +4,7 @@ import sys
 import re
 import pepxml
 
-usage_mesg = 'Usage: tandem-pepxml2hit_list.py <.pepxml file>'
+usage_mesg = 'Usage: directag-tagrecon-pepxml2hit_list.py <.pepxml file>'
 
 if( len(sys.argv) != 2 ):
     print usage_mesg
@@ -24,20 +24,24 @@ filename_out += '.hit_list'
 sys.stderr.write("Write %s ... \n"%filename_out)
 f_out = open(filename_out,'w')
 f_out.write("# pepxml: %s\n"%filename_pepxml)
-f_out.write("#Spectrum_id\tCharge\tNeutralMass\tPeptide\tProtein\tMissedCleavages\tAbsScore(Hyperscore)\tRelScore(Expect)\n")
+f_out.write("#Spectrum_id\tCharge\tNeutralMass\tPeptide\tProtein\tMissedCleavages\tAbsScore(xcorr)\tRelScore(massError)\n")
 for spectrum_id in PSM.keys():
     charge = PSM[spectrum_id]['charge']
     neutral_mass = PSM[spectrum_id]['neutral_mass']
     best_peptide = ''
     best_protein = ''
-    best_hyperscore = 0
+    best_xcorr = -100
+    best_massError = 0
     missed_cleavages = 0
     for tmp_hit in PSM[spectrum_id]['search_hit']:
-        if( tmp_hit['hyperscore'] > best_hyperscore ):
-            best_hyperscore = tmp_hit['hyperscore']
+        if( tmp_hit['hit_rank'] != 1 ):
+            continue
+        if( tmp_hit['xcorr'] > best_xcorr ):
+            best_xcorr = tmp_hit['xcorr']
             best_peptide = tmp_hit['peptide']
             best_protein = tmp_hit['protein']
-            best_expect = tmp_hit['expect']
+            best_massError = tmp_hit['massError']
             missed_cleavages = tmp_hit['missed_cleavages']
-    f_out.write("%s\t%s\t%f\t%s\t%s\t%d\t%f\t%f\n"%(spectrum_id,charge,neutral_mass,best_peptide,best_protein,missed_cleavages,best_hyperscore,best_expect))
+    if( best_xcorr > -100 ):
+        f_out.write("%s\t%s\t%f\t%s\t%s\t%d\t%f\t%f\n"%(spectrum_id,charge,neutral_mass,best_peptide,best_protein,missed_cleavages,best_xcorr,best_massError))
 f_out.close()
